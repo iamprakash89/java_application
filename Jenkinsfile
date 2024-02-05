@@ -3,7 +3,7 @@
 pipeline {
     agent any	
     tools{
-        maven 'M2_HOME'
+        mvn 'M2_HOME'
     }
     stages {
         stage('GIT CHECKOUT') {
