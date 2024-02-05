@@ -1,11 +1,7 @@
 @Library('my-shared-library') _
 
 pipeline {
-    agent any
-    tools{
-        maven 'Maven 3.9.0'
-    }
-	
+    agent any	
     stages {
         stage('GIT CHECKOUT') {
             steps {
