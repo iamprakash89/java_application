@@ -2,9 +2,9 @@
 
 pipeline {
     agent any	
-    
+
    environment {
-        MAVEN_HOME = '/opt/apache-maven-3.9.0' // Update with the actual path to Maven
+        MAVEN_HOME = '/opt/apache-maven-3.9.1' // Update with the actual path to Maven
         PATH = "$MAVEN_HOME/bin:$PATH"
     }
 
