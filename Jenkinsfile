@@ -2,9 +2,12 @@
 
 pipeline {
     agent any	
-    tools{
-        mvn 'M2_HOME'
+    
+   environment {
+        MAVEN_HOME = '/opt/apache-maven-3.9.0' // Update with the actual path to Maven
+        PATH = "$MAVEN_HOME/bin:$PATH"
     }
+
     stages {
         stage('GIT CHECKOUT') {
             steps {
