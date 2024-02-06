@@ -40,7 +40,7 @@ pipeline {
             }
         }
 
-        stage('Maven Integration Test'){
+        stage('Static Code Analysis Sonarqube'){
            
             steps{
                 script{
