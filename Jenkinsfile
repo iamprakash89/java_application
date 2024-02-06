@@ -3,12 +3,18 @@
 pipeline {
     agent any	
 
+    parameters{
+        choice(name: 'action', choices: 'create\ndelete', description: 'Choose create/Destroy')
+    }
+
    environment {
         MAVEN_HOME = '/opt/apache-maven-3.9.1' // Update with the actual path to Maven
         PATH = "$MAVEN_HOME/bin:$PATH"
     }
 
     stages {
+        when { expression { param.action == 'create' } }
+
         stage('GIT CHECKOUT') {
             steps {
                 script{
@@ -20,6 +26,8 @@ pipeline {
             }
         }
         stage('Unit Test maven'){
+            when { expression { param.action == 'create' } }
+
             steps{
                 script{
                     mvnTest()
@@ -27,9 +35,20 @@ pipeline {
             }
         }
         stage('Maven Integration Test'){
+            when { expression { param.action == 'create' } }
+
             steps{
                 script{
                     mvnintegrationtest()
+                }
+            }
+        }
+        stage('staic code Analysis'){
+            when { expression { param.action == 'create'}}
+
+            steps{
+                script{
+                    staticcodeAnalysis()
                 }
             }
         }
