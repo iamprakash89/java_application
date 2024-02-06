@@ -44,7 +44,7 @@ pipeline {
             }
         }
         stage('staic code Analysis'){
-            when { expression { param.action == 'create'}}
+            when { expression { param.action == 'create' } }
 
             steps{
                 script{
