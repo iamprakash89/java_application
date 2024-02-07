@@ -49,5 +49,15 @@ pipeline {
             }
         }
 
+        stage('Quality Gate Status Sonarqube'){
+           
+            steps{
+                script{
+                     qualitygatestatus()
+                }
+            }
+        }
+
+
     }
 }
