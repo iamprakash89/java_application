@@ -43,7 +43,7 @@ pipeline {
         stage('Static Code Analysis Sonarqube'){
            
             steps{
-                withSonarQubeEnv('http://23.253.22.88:9000'){
+                withSonarQubeEnv('http://23.253.164.236:9000'){
                 script{
                      staticcodeAnalysis()
                 }
