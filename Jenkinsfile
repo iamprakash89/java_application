@@ -45,7 +45,8 @@ pipeline {
             steps{
                 withSonarQubeEnv('http://23.253.164.236:9000'){
                 script{
-                     staticcodeAnalysis()
+                    def credentialsId = 'sonarqube'
+                     staticcodeAnalysis(credentialsId)
                 }
              }
             }
