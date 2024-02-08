@@ -22,5 +22,13 @@ pipeline{
             mvnTest()
             }
         }
+
+        stage('Maven Integration Test'){
+            //        when { expression {  params.action == 'create' } }
+            steps{
+            mvnintegrationtest()
+            }
+        }
+
     }
 }
