@@ -2,12 +2,18 @@
 
 pipeline{
 
+
     agent any
+
+    parameters{
+        choice(name: 'action', choices: 'create\ndelete', description: 'choose create/Destroy')
+    }
     //agent { label 'Demo' }
     stages{
          
+        when { expression {  params.action == 'create' } }
         stage('Git Checkout'){
-            //        when { expression {  params.action == 'create' } }
+            //       
             steps{
             gitcheckout(
                 branch: "main",
@@ -15,23 +21,25 @@ pipeline{
             )
             }
         }
-
+        
+        
         stage('Maven Test'){
-            //        when { expression {  params.action == 'create' } }
+          when { expression {  params.action == 'create' } }
             steps{
             mvnTest()
             }
         }
-
+        
+       
         stage('Maven Integration Test'){
-            //        when { expression {  params.action == 'create' } }
+           when { expression {  params.action == 'create' } }
             steps{
             mvnintegrationtest()
             }
         }
 
         stage('Maven Static Code Analysis'){
-            //        when { expression {  params.action == 'create' } }
+             // when { expression {  params.action == 'create' } }
             steps{
             staticcodeAnalysis()
             }
