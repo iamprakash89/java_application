@@ -15,7 +15,8 @@ pipeline{
             )
             }
         }
-        stage('Git Checkout'){
+
+        stage('Maven Test'){
             //        when { expression {  params.action == 'create' } }
             steps{
             mvnTest()
