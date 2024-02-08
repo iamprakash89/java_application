@@ -9,11 +9,13 @@ pipeline{
         stage('Git Checkout'){
             //        when { expression {  params.action == 'create' } }
             steps{
-            gitCheckout(
+            gitcheckout(
                 branch: "main",
                 url: "https://github.com/iamprakash89/java_application.git"
             )
             }
         }
+
+
     }
 }
