@@ -11,8 +11,9 @@ pipeline{
     //agent { label 'Demo' }
     stages{
          
-        when { expression {  params.action == 'create' } }
+        
         stage('Git Checkout'){
+            when { expression {  params.action == 'create' } }
             //       
             steps{
             gitcheckout(
