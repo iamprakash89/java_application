@@ -26,7 +26,9 @@ pipeline{
         stage('Maven Test'){
           when { expression {  params.action == 'create' } }
             steps{
-            mvnTest()
+                script{
+                     mvnTest()
+                }
             }
         }
         
@@ -34,15 +36,20 @@ pipeline{
         stage('Maven Integration Test'){
            when { expression {  params.action == 'create' } }
             steps{
-            mvnintegrationtest()
+                scritp{
+                    mvnintegrationtest()
+                }
             }
         }
 
         stage('Maven Static Code Analysis'){
              when { expression {  params.action == 'create' } }
             steps{
-                def credentialsId = 'sonarqube-api'
-                staticcodeAnalysis(credentialsId)
+                scritp{
+                    def credentialsId = 'sonarqube-api'
+                    staticcodeAnalysis(credentialsId)
+                }
+                
             }
         }
 
