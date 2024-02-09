@@ -42,16 +42,16 @@ pipeline{
             }
         }
 
-        stage('Maven Static Code Analysis'){
-          when { expression {  params.action == 'create' } }
+        stage('Static code analysis: Sonarqube'){
+         when { expression {  params.action == 'create' } }
             steps{
-                scritp{
-                    def sonarcredentialsId = 'sonarqube-api'
-                    staticcodeAnalysis(sonarcredentialsId)
-                }
-                
+               script{
+                   
+                   def SonarQubecredentialsId = 'sonarqube-api'
+                   staticcodeAnalysis(SonarQubecredentialsId)
+               }
             }
-        }
+       }
 
     }
 }
