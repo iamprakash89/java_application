@@ -7,7 +7,7 @@ pipeline{
     parameters{
 
         choice(name: 'action', choices: 'create\ndelete', description: 'Choose create/Destroy')
-        string(name: 'project', description: "name of the ecr repo name", defaultValue: 'java_pp')
+        string(name: 'project', description: "name of the ecr repo name", defaultValue: 'java_app')
         string(name: 'accountid', description: "name of the aws account id", defaultValue: '637423367353')
         string(name: 'region', description: "name of the Application", defaultValue: 'ap-south-1')
     }
@@ -74,15 +74,15 @@ pipeline{
         //     }
         // }
 
-        // stage('Docker Image scan :Trivy'){
-        //  when { expression {  params.action == 'create' } }
-        //     steps{
-        //        script{
+        stage('Docker Image scan :Trivy'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
                    
-        //            dockerimagescan("${params.project}","${params.accountid}","${params.region}")
-        //        }
-        //     }
-        // }
+                   dockerimagescan("${params.project}","${params.accountid}","${params.region}")
+               }
+            }
+        }
 
         stage('Docker Image Build: ECR'){
          when { expression {  params.action == 'create' } }
