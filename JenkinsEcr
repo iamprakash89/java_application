@@ -89,7 +89,7 @@ pipeline{
             steps{
                script{
                    
-                   dockeridockerbuild("${params.project}","${params.accountid}","${params.region}")
+                   dockerbuild("${params.project}","${params.accountid}","${params.region}")
                }
             }
         }
