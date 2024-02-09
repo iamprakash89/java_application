@@ -44,13 +44,23 @@ pipeline{
                }
             }
         }
-        
+
         stage('Statc Code Analysis'){
          when { expression {  params.action == 'create' } }
             steps{
                script{
                    
                    staticcodeAnalysis()
+               }
+            }
+        }
+
+        stage('Quality Gate Analysis'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
+                   
+                   QualityGateStatus()
                }
             }
         }
