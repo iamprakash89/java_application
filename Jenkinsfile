@@ -3,7 +3,6 @@
 pipeline{
 
     agent any
-    //agent { label 'Demo' }
 
     parameters{
 
@@ -24,56 +23,56 @@ pipeline{
             )
             }
         }
-        //  stage('Unit Test :Maven'){
+         stage('Unit Test :Maven'){
          
-        //  when { expression {  params.action == 'create' } }
+         when { expression {  params.action == 'create' } }
 
-        //     steps{
-        //        script{
+            steps{
+               script{
                    
-        //            mvnTest()
-        //        }
-        //     }
-        // }
-        //  stage('Integration Test  : Maven'){
-        //  when { expression {  params.action == 'create' } }
-        //     steps{
-        //        script{
+                   mvnTest()
+               }
+            }
+        }
+         stage('Integration Test  : Maven'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
                    
-        //            mvnintegrationtest()
-        //        }
-        //     }
-        // }
+                   mvnintegrationtest()
+               }
+            }
+        }
 
-        // stage('Statc Code Analysis :Sonarqube'){
-        //  when { expression {  params.action == 'create' } }
-        //     steps{
-        //        script{
+        stage('Statc Code Analysis :Sonarqube'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
                    
-        //            staticcodeAnalysis()
-        //        }
-        //     }
-        // }
+                   staticcodeAnalysis()
+               }
+            }
+        }
 
-        // stage('Quality Gate Analysis :Sonarqube'){
-        //  when { expression {  params.action == 'create' } }
-        //     steps{
-        //        script{
+        stage('Quality Gate Analysis :Sonarqube'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
                    
-        //            QualityGateStatus()
-        //        }
-        //     }
-        // }
+                   QualityGateStatus()
+               }
+            }
+        }
 
-        // stage('Maven Build :Maven'){
-        //  when { expression {  params.action == 'create' } }
-        //     steps{
-        //        script{
+        stage('Maven Build :Maven'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
                    
-        //            mvnBuild()
-        //        }
-        //     }
-        // }
+                   mvnBuild()
+               }
+            }
+        }
 
         stage('Docker Image Build :Docker'){
          when { expression {  params.action == 'create' } }
