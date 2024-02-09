@@ -45,6 +45,15 @@ pipeline{
             }
         }
         
+        stage('Statc Code Analysis'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
+                   
+                   staticcodeAnalysis()
+               }
+            }
+        }
 
     }
 }
