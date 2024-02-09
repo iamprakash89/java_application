@@ -43,11 +43,11 @@ pipeline{
         }
 
         stage('Maven Static Code Analysis'){
-             when { expression {  params.action == 'create' } }
+          when { expression {  params.action == 'create' } }
             steps{
                 scritp{
-                    def credentialsId = 'sonarqube-api'
-                    staticcodeAnalysis(credentialsId)
+                    def sonarcredentialsId = 'sonarqube-api'
+                    staticcodeAnalysis(sonarcredentialsId)
                 }
                 
             }
