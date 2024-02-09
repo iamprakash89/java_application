@@ -36,7 +36,7 @@ pipeline{
         stage('Maven Integration Test'){
            when { expression {  params.action == 'create' } }
             steps{
-                scritp{
+                script{
                     mvnintegrationtest()
                 }
             }
@@ -46,7 +46,7 @@ pipeline{
          when { expression {  params.action == 'create' } }
             steps{
                script{
-                   staticcodeAnalysis(SonarQubecredentialsId)
+                   staticcodeAnalysis()
                }
             }
        }
