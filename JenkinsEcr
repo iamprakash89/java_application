@@ -122,7 +122,7 @@ pipeline{
         //     }
         // }
 
-        stage('Create EKS Cluster: TerraForm'){
+        stage('Create EKS Cluster: EKS'){
             steps{
                 script{
                     dir('eks_module') {
@@ -137,7 +137,7 @@ pipeline{
             }
         }
 
-        stage('Create EKS Cluster: TerraForm'){
+        stage('Create EKS Cluster: EKS'){
             steps{
                 script{
                     sh """
