@@ -167,7 +167,7 @@ pipeline{
                         currentBuild.result = 'UNSTABLE'
                     }
 
-                    if(appl){
+                    if(apply){
                         sh """
                         kubectl apply -f deployment.yml
                         """
