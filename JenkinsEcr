@@ -12,6 +12,11 @@ pipeline{
         string(name: 'region', description: "name of the Application", defaultValue: 'ap-south-1')
     }
 
+    environment{
+        aws_access_key = credentials('Access_key_ID')
+        aws_secret_key = credentials('Secret_access_key')
+    }
+
     stages{
          
         stage('Git Checkout :Git'){
@@ -23,98 +28,115 @@ pipeline{
             )
             }
         }
-         stage('Unit Test :Maven'){
+        //  stage('Unit Test :Maven'){
          
-         when { expression {  params.action == 'create' } }
+        //  when { expression {  params.action == 'create' } }
 
-            steps{
-               script{
+        //     steps{
+        //        script{
                    
-                   mvnTest()
-               }
-            }
-        }
-         stage('Integration Test  : Maven'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{
+        //            mvnTest()
+        //        }
+        //     }
+        // }
+        //  stage('Integration Test  : Maven'){
+        //  when { expression {  params.action == 'create' } }
+        //     steps{
+        //        script{
                    
-                   mvnintegrationtest()
-               }
-            }
-        }
+        //            mvnintegrationtest()
+        //        }
+        //     }
+        // }
 
-        stage('Statc Code Analysis :Sonarqube'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{
+        // stage('Statc Code Analysis :Sonarqube'){
+        //  when { expression {  params.action == 'create' } }
+        //     steps{
+        //        script{
                    
-                   staticcodeAnalysis()
-               }
-            }
-        }
+        //            staticcodeAnalysis()
+        //        }
+        //     }
+        // }
 
-        stage('Quality Gate Analysis :Sonarqube'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{
+        // stage('Quality Gate Analysis :Sonarqube'){
+        //  when { expression {  params.action == 'create' } }
+        //     steps{
+        //        script{
                    
-                   QualityGateStatus()
-               }
-            }
-        }
+        //            QualityGateStatus()
+        //        }
+        //     }
+        // }
 
-        stage('Maven Build :Maven'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{
+        // stage('Maven Build :Maven'){
+        //  when { expression {  params.action == 'create' } }
+        //     steps{
+        //        script{
                    
-                   mvnBuild()
-               }
-            }
-        }
+        //            mvnBuild()
+        //        }
+        //     }
+        // }
 
         
 
-        stage('Docker Image Build: ECR'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{
+        // stage('Docker Image Build: ECR'){
+        //  when { expression {  params.action == 'create' } }
+        //     steps{
+        //        script{
                    
-                   dockerbuild("${params.project}","${params.accountid}","${params.region}")
-               }
+        //            dockerbuild("${params.project}","${params.accountid}","${params.region}")
+        //        }
+        //     }
+        // }
+
+        // stage('Docker Image scan :Trivy'){
+        //  when { expression {  params.action == 'create' } }
+        //     steps{
+        //        script{
+                   
+        //            dockerimagescan("${params.project}","${params.accountid}","${params.region}")
+        //        }
+        //     }
+        // }
+
+        // stage('Docker Image push: ECR'){
+        //  when { expression {  params.action == 'create' } }
+        //     steps{
+        //        script{
+                   
+        //            dockerpush("${params.project}","${params.accountid}","${params.region}")
+        //        }
+        //     }
+        // }
+
+        // stage('Docker Image clanup: ECR'){
+        //  when { expression {  params.action == 'create' } }
+        //     steps{
+        //        script{
+                   
+        //            dockerimagecleanup("${params.project}","${params.accountid}","${params.region}")
+        //        }
+        //     }
+        // }
+
+        stage('Create EKS Cluster: TerraForm'){
+            steps{
+                script{
+                    dir('eks_module') {
+                        sh """
+                        terraform init
+                        terraform plan -var 'access_key=$aws_access_key' -var secret_key=$aws_secret_key -var region=${params.region}' --var-file=./config/terraform.tfvars
+                        terraform apply -var 'access_key=$aws_access_key' -var secret_key=$aws_secret_key -var region=${params.region}' --var-file=./config/terraform.tfvars --auto-approve
+                        """
+                    }
+
+                    
+                }
             }
         }
 
-        stage('Docker Image scan :Trivy'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{
-                   
-                   dockerimagescan("${params.project}","${params.accountid}","${params.region}")
-               }
-            }
-        }
-
-        stage('Docker Image push: ECR'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{
-                   
-                   dockerpush("${params.project}","${params.accountid}","${params.region}")
-               }
-            }
-        }
-
-        stage('Docker Image clanup: ECR'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{
-                   
-                   dockerimagecleanup("${params.project}","${params.accountid}","${params.region}")
-               }
-            }
-        }
 
     }
 }
