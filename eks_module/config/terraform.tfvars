@@ -9,6 +9,7 @@ aws_eks_cluster_config = {
              "Name" =  "demo-cluster"
          }  
       }
+
 }
 
 eks_node_group_config = {
@@ -24,4 +25,5 @@ eks_node_group_config = {
              "Name" =  "node1"
          } 
   }
+  
 }
