@@ -123,6 +123,7 @@ pipeline{
         // }
 
         stage('Create EKS Cluster: EKS'){
+            when { expression {  params.action == 'create' } }
             steps{
                 script{
                     dir('eks_module') {
@@ -138,6 +139,7 @@ pipeline{
         }
 
         stage('connect EKS Cluster: EKS'){
+            when { expression {  params.action == 'create' } }
             steps{
                 script{
                     sh """
@@ -146,6 +148,30 @@ pipeline{
                     aws configure set region "${params.region}"
                     aws eks --region ${params.region} update-kubeconfig --name ${params.cluster}
                     """
+                }
+            }
+        }
+
+        stage('deploy on EKS cluster: EKS'){
+            when { expression {  params.action == 'create' } }
+            steps{
+                script{
+
+                    def apply = false
+                    try{
+                        input message 'please confirm to deploy on eks', ok: 'ready to apply the config?'
+                        apply = true
+                    }catch(err){
+                        apply = false
+                        currentBuild.result = 'UNSTABLE'
+                    }
+
+                    if(appl){
+                        sh """
+                        kubectl apply -f deployment.yml
+                        """
+                    }
+
                 }
             }
         }
