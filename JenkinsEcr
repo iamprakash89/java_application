@@ -128,7 +128,7 @@ pipeline{
                         sh """
 
                         terraform init
-                        terraform plan -var 'access_key=$aws_access_key' -var 'secret_key=$aws_secret_key' -var 'region=${params.region}' --var-file=./config/terraform.tfvars
+                        terraform plan -var 'access_key=$aws_access_key' -var 'secret_key=$aws_secret_key' -var 'region=${params.region}' --var-file=./config/terraform.tfvars -debug
                         terraform apply -var 'access_key=$aws_access_key' -var 'secret_key=$aws_secret_key' -var 'region=${params.region} --var-file=./config/terraform.tfvars --auto-approve
                         """
                     }
