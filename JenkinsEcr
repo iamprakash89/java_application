@@ -10,6 +10,7 @@ pipeline{
         string(name: 'project', description: "name of the ecr repo name", defaultValue: 'java_app')
         string(name: 'accountid', description: "name of the aws account id", defaultValue: '637423367353')
         string(name: 'region', description: "name of the Application", defaultValue: 'ap-south-1')
+        string(name: 'cluster', description: "name of the eks cluster", defaultValue: 'demo-cluster1')
     }
 
     environment{
@@ -136,6 +137,18 @@ pipeline{
             }
         }
 
-         
+        stage('Create EKS Cluster: TerraForm'){
+            steps{
+                script{
+                    sh """
+                    aws configure set aws_access_key_id $aws_access_key
+                    aws configure set aws_secret_access_key $aws_secret_key
+                    aws configure set region ${params.region}
+                    aws eks --region ${params.region} update-kubeconfig --name ${params.cluster}
+                    """
+                }
+            }
+        }
+
     }
 }
